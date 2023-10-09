@@ -1,1 +1,1 @@
-# go_hrms_project
+# Go HRMS Project
