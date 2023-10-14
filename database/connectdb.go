@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"os"
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -19,18 +20,19 @@ type MongoInstance struct {
 var MG MongoInstance
 
 func Connect() error{
-	const dbURI = "mongodb+srv://udodinho:home1234@nodeexpressprojects.t2khoz6.mongodb.net/GO-HRMS?retryWrites=true&w=majority"
+	 dbURI := os.Getenv("MONGO_URI")
 
 	// Use the SetServerAPIOptions() method to set the Stable API version to 1
 	serverAPI := options.ServerAPI(options.ServerAPIVersion1)
 	opts := options.Client().ApplyURI(dbURI).SetServerAPIOptions(serverAPI)
-	ctx, cancel := context.WithTimeout(context.Background(), 200*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
 	defer cancel()
+
 	// Create a new client and connect to the server
 	client, err := mongo.Connect(ctx, opts)
 
 	if err != nil {
-        log.Fatal("Context error, mongoDB:", err)
+        log.Fatal("Could not connect to mongoDB: ", err)
     }
 	
 	// Send a ping to confirm a successful connection
