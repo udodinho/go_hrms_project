@@ -10,6 +10,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+	"github.com/joho/godotenv"
 )
 
 type MongoInstance struct {
@@ -20,6 +21,12 @@ type MongoInstance struct {
 var MG MongoInstance
 
 func Connect() error{
+	err := godotenv.Load(".env")
+
+	if err != nil {
+		log.Fatal(err)
+	}
+	
 	 dbURI := os.Getenv("MONGO_URI")
 
 	// Use the SetServerAPIOptions() method to set the Stable API version to 1
